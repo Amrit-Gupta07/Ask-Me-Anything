@@ -4,7 +4,7 @@ import { authOptions } from "../../auth/[...nextauth]/options";
 import UserModel from "@/model/User";
 
 
-export async function GET(
+export async function DELETE(
     request: Request,
     { params }: { params: { messageId: string } }
 ){
@@ -15,7 +15,7 @@ export async function GET(
     //     message : "amrit"
     // })
 
-    
+
     const messageId = params.messageId;
     await dbConnect();
 

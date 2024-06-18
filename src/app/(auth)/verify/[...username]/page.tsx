@@ -46,62 +46,67 @@ export default function VerifyAccount() {
         code: data.code,
       });
 
-      if(!response.data.success){
+      if (!response.data.success) {
         return toast({
-            title: 'Failed',
-            description: response.data.message,
-        })
+          title: "Failed",
+          description: response.data.message,
+        });
       }
 
       toast({
-        title: 'Success',
+        title: "Success",
         description: response.data.message,
       });
-      router.replace(`/sigin-in`)
+      router.replace(`/sigin-in`);
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
-        title: 'Verification Failed',
+        title: "Verification Failed",
         description:
           axiosError.response?.data.message ??
-          'An error occurred. Please try again.',
-        variant: 'destructive',
+          "An error occurred. Please try again.",
+        variant: "destructive",
       });
-    }finally{
-        setIsSubmitting(false)
+    } finally {
+      setIsSubmitting(false);
     }
   };
   return (
-    <div>
-      Verify Code
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
-            name="code"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Verify Code</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter Code" {...field} />
-                </FormControl>
+    <div className="bg-slate-100 min-h-screen flex flex-col justify-center items-center">
+      <div className="bg-white rounded-lg p-8 w-full max-w-md">
+        <div className="space-y-6 text-center mb-4">
+          <h1 className="text-center text-4xl font-extrabold">Verify Your Account</h1>
+          <p>Enter the verification code sent to your email</p>
+        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Verification Code</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter Code" {...field} />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <div>
-                {" "}
-                <Loader2 /> Please Wait
-              </div>
-            ) : (
-              <div>Sign Up</div>
-            )}
-          </Button>
-        </form>
-      </Form>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  {" "}
+                  <Loader2 className="animate-spin" /> Please Wait
+                </>
+              ) : (
+                <div>Verify</div>
+              )}
+            </Button>
+          </form>
+        </Form>
+      </div>
     </div>
   );
 }

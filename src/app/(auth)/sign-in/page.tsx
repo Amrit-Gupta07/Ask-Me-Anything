@@ -23,6 +23,7 @@ import { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import { toast } from "@/components/ui/use-toast";
 import {signIn} from "next-auth/react"
+import Link from "next/link";
 export default function page() {
     const[isSubmitting,setIsSubmitting] = useState(false)
     const router = useRouter();
@@ -65,7 +66,12 @@ export default function page() {
       }
     
   return (
-    <div>
+    <div className="bg-gray-800 min-h-screen flex justify-center items-center">
+    <div className="bg-white w-full max-w-[85%] md:max-w-md rounded-lg shadow-md p-8">
+        <div className="text-center">
+            <h1 className="text-4xl font-extrabold mb-4"> Welcome Back to True Feedback</h1>
+            <p className="mb-4">Sign in to continue your secret conversations</p>
+        </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -89,14 +95,14 @@ export default function page() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Password" {...field} />
+                  <Input type="password" placeholder="Enter Password" {...field} />
                 </FormControl>
 
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isSubmitting} className="p-4">
+          <Button type="submit" disabled={isSubmitting} className="p-4 w-full ">
             {isSubmitting ? (
               <>
                 <Loader2 className="animate-spin mr-2" /> Please Wait
@@ -107,6 +113,12 @@ export default function page() {
           </Button>
         </form>
       </Form>
+      <div className="mt-4 text-center">
+        <p>Not a member yet ?{' '}
+        <Link href={'/sign-up'} className="text-blue-600 hover:text-blue-400">Sign Up </Link>
+        </p>
+      </div>
+      </div>
     </div>
   )
 }

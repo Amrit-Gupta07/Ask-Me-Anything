@@ -29,7 +29,7 @@ import { useToast } from "./ui/use-toast";
 
 type MessageCardProp = {
   message: Message;
-  onMessageDelete: (messageId: string) => void;
+  onMessageDelete: (messageId: any) => void;
 };
 
 export default function MessageCard({
@@ -64,7 +64,7 @@ export default function MessageCard({
     <Card className="card-bordered">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>{message.content}</CardTitle>
+          <CardTitle className="text-2xl">{message.content}</CardTitle>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="destructive">

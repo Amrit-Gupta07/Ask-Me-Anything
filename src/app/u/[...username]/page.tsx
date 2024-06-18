@@ -19,6 +19,8 @@ import * as z from "zod";
 import { ApiResponse } from "@/types/ApiResponse";
 import axios, { AxiosError } from "axios";
 import { toast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function SendMessage() {
   const params = useParams<{ username: string }>();
@@ -28,6 +30,18 @@ export default function SendMessage() {
     resolver: zodResolver(messageSchema),
   });
   const [isLoading, setIsLoading] = useState(false);
+
+  const initialMessageString =
+    "What's your favorite movie?||Do you have any pets?||What's your dream job?";
+  const specialCharater = "||";
+
+  const parseInputString = (message: string): string[] => {
+    return initialMessageString.split(specialCharater);
+  };
+
+  const { watch, handleSubmit, setValue } = useForm();
+
+  const messageContent = form.watch("content");
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     setIsLoading(true);
@@ -41,6 +55,7 @@ export default function SendMessage() {
         title: response.data.message,
         variant: "default",
       });
+      form.setValue("content", "");
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
@@ -52,6 +67,10 @@ export default function SendMessage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleMessageClick = (message: string) => {
+    form.setValue("content", message);
   };
 
   return (
@@ -77,9 +96,38 @@ export default function SendMessage() {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 animate-spin" /> Please Wait
+              </>
+            ) : (
+              <div>Send</div>
+            )}
+          </Button>
         </form>
       </Form>
+
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold">Messages</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col space-y-4">
+          {parseInputString(initialMessageString).map((message, index) => {
+            return (
+              <Button 
+              key={index}  
+              variant="outline"
+              className="mb-2"
+
+              onClick={() => handleMessageClick(message)}
+              >
+                {message}
+              </Button>
+            );
+          })}
+        </CardContent>
+      </Card>
     </div>
   );
 }

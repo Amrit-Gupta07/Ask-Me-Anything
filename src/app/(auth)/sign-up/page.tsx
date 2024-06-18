@@ -22,6 +22,7 @@ import axios from "axios";
 import { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
 import { toast } from "@/components/ui/use-toast";
+import Link from "next/link";
 export default function SignUpForm() {
   const [username, setUsername] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -98,9 +99,10 @@ export default function SignUpForm() {
   };
 
   return (
-    <div>
-      <div>
-        <h1> Join True Feedback</h1>
+    <div className="bg-gray-800 min-h-screen flex flex-col justify-center items-center">
+        <div className="bg-white rounded-lg shadow-md p-8 max-w-[85%] md:max-w-md">
+      <div className="text-center space-y-4 mb-4">
+        <h1 className="text-4xl font-extrabold"> Join True Feedback</h1>
         <p>Sign up to start your anonymous adventure</p>
       </div>
       <Form {...form}>
@@ -160,14 +162,14 @@ export default function SignUpForm() {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder="Password" {...field} name="password" />
+                  <Input type= "password"placeholder="Password" {...field} name="password" />
                 </FormControl>
 
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? (
               <div>
                 {" "}
@@ -179,6 +181,12 @@ export default function SignUpForm() {
           </Button>
         </form>
       </Form>
+      <div className="mt-4 text-center">
+        <p>Already a member ?{' '}
+        <Link href={'/sign-in'} className="text-blue-600 hover:text-blue-400">Sign In </Link>
+        </p>
+      </div>
+      </div>
     </div>
   );
 }

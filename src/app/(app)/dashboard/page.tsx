@@ -14,7 +14,8 @@ import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Loader2, RefreshCcw } from "lucide-react";
-const page = () => {
+
+const UserDashboard = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
@@ -23,7 +24,7 @@ const page = () => {
 
   const { toast } = useToast();
 
-  const username = session?.user.username as User;
+//   const username = session?.user.username as User;
 
   const handleDeleteMessage = (messageId: string) => {
     setMessages(
@@ -61,8 +62,7 @@ const page = () => {
     }
   }, [setIsLoading,setMessages,toast]);
 
-  const baseUrl = `${window.location.protocol}//${window.location.host}`;
-  const profileUrl = `${baseUrl}/u/${username}`;
+
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
@@ -134,6 +134,11 @@ const page = () => {
   if (!session || !session.user) {
     return <div></div>;
   }
+  const {username} = session.user as User;
+
+
+  const baseUrl = `${window.location.protocol}//${window.location.host}`;
+  const profileUrl = `${baseUrl}/u/${username}`;
   return (
     <div className=" my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded max-w-6xl w-full">
       <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
@@ -195,4 +200,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default UserDashboard;

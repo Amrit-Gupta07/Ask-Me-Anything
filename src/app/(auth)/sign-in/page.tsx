@@ -24,7 +24,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { toast } from "@/components/ui/use-toast";
 import {signIn} from "next-auth/react"
 import Link from "next/link";
-export default function page() {
+export default function Page() {
     const[isSubmitting,setIsSubmitting] = useState(false)
     const router = useRouter();
     const form = useForm<z.infer<typeof signInSchema>>({
